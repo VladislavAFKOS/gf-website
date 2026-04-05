@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>This Is All About You</title>
+  <style>
+    :root {
+      --navy: #14285b;
+      --navy-2: #0f1d47;
+      --lavender: #efeafb;
+      --pink: #f8c6d8;
+      --pink-2: #ff8fbe;
+      --purple: #d7c7ff;
+      --blue: #9fd0ff;
+      --green: #9fd9a8;
+      --gold: #f4d28c;
+      --card: rgba(255,255,255,0.82);
+      --shadow: 0 20px 45px rgba(15, 26, 69, 0.18);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      color: #24325d;
+      background: linear-gradient(180deg, var(--navy) 0%, #1b3473 24%, var(--lavender) 24%, #f9edf3 72%, var(--navy-2) 72%, #10183b 100%);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.9) 0 2px, transparent 3px),
+        radial-gradient(circle at 28% 9%, rgba(255,255,255,0.8) 0 1.5px, transparent 3px),
+        radial-gradient(circle at 54% 15%, rgba(255,255,255,0.8) 0 2px, transparent 3px),
+        radial-gradient(circle at 77% 11%, rgba(255,255,255,0.9) 0 1.5px, transparent 3px),
+        radial-gradient(circle at 88% 20%, rgba(255,255,255,0.8) 0 2px, transparent 3px),
+        radial-gradient(circle at 8% 61%, rgba(255,255,255,0.55) 0 1px, transparent 2px),
+        radial-gradient(circle at 92% 78%, rgba(255,255,255,0.5) 0 1px, transparent 2px);
+      opacity: 0.8;
+    }
+
+    body::after {
+      background:
+        radial-gradient(ellipse at bottom left, rgba(255, 171, 215, 0.35), transparent 28%),
+        radial-gradient(ellipse at bottom right, rgba(195, 171, 255, 0.25), transparent 30%),
+        radial-gradient(ellipse at top left, rgba(145, 200, 255, 0.16), transparent 20%);
+    }
+
+    .cloud {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(8px);
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    .cloud.one {
+      width: 320px;
+      height: 120px;
+      left: -70px;
+      top: 260px;
+      background: rgba(229, 201, 255, 0.45);
+    }
+
+    .cloud.two {
+      width: 300px;
+      height: 120px;
+      right: -70px;
+      top: 320px;
+      background: rgba(255, 193, 220, 0.42);
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0 8px;
+      color: white;
+    }
+
+    .brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.92);
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      min-height: 92vh;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+      padding: 42px 0 64px;
+      position: relative;
+    }
+
+    .hero-text h1,
+    .section-title {
+      font-family: "Comic Sans MS", "Trebuchet MS", cursive;
+      font-weight: 700;
+      line-height: 0.98;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(3.2rem, 8vw, 6rem);
+      color: white;
+      margin: 0 0 18px;
+      text-shadow: 0 10px 26px rgba(0,0,0,0.18);
+    }
+
+    .hero-text h1 .accent { color: #ff93c4; }
+
+    .hero-text p {
+      max-width: 480px;
+      color: rgba(255,255,255,0.9);
+      font-size: 1.14rem;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      color: #fff5fc;
+      border: 1px solid rgba(255,255,255,0.18);
+      margin-bottom: 16px;
+      backdrop-filter: blur(8px);
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 26px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff7ab5, #ff9fcc);
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      min-height: 48px;
+      box-shadow: 0 18px 32px rgba(255, 124, 183, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 38px rgba(255, 124, 183, 0.42);
+    }
+
+    .hero-visual {
+      position: relative;
+      height: 620px;
+      padding-bottom: 70px;
+      overflow: visible;
+    }
+
+    .hero-note {
+      position: absolute;
+      right: 20px;
+      bottom: 0;
+      color: white;
+      font-family: "Comic Sans MS", cursive;
+      font-size: 1.9rem;
+      line-height: 1.15;
+      opacity: 1;
+      text-align: center;
+      max-width: 250px;
+      text-shadow:
+        -1px -1px 0 rgba(20, 40, 91, 0.9),
+        1px -1px 0 rgba(20, 40, 91, 0.9),
+        -1px 1px 0 rgba(20, 40, 91, 0.9),
+        1px 1px 0 rgba(20, 40, 91, 0.9),
+        0 8px 18px rgba(0,0,0,0.22);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(10px);
+      border-radius: 22px;
+      padding: 14px 18px;
+      box-shadow: 0 16px 28px rgba(10, 20, 56, 0.18);
+    }
+
+    .polaroid {
+      position: absolute;
+      width: 190px;
+      padding: 14px 14px 52px;
+      background: #fff9fd;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      transform: rotate(var(--rotate));
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+      outline: none;
+      border: none;
+      -webkit-appearance: none;
+      appearance: none;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .polaroid:hover,
+    .polaroid:focus-visible,
+    .polaroid.tapped {
+      transform: rotate(var(--rotate)) translateY(-10px) scale(1.03);
+      box-shadow: 0 28px 52px rgba(15, 26, 69, 0.26);
+    }
+
+    .polaroid .photo {
+      width: 100%;
+      height: 210px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 3rem;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+
+    .photo.sky { background: linear-gradient(180deg, #ffd2a8, #88b8ff); }
+    .photo.lilies { background: linear-gradient(135deg, #ffb3cc, #fce9f0, #96c7ff); color: #7e2d61; }
+    .photo.tea { background: linear-gradient(135deg, #b67f48, #f0d9be); }
+    .photo.clouds { background: linear-gradient(180deg, #92bfff, #d8ebff, #ffd4ea); }
+
+    .polaroid p {
+      position: absolute;
+      left: 50%;
+      bottom: 10px;
+      transform: translateX(-50%) translateY(6px);
+      margin: 0;
+      text-align: center;
+      font-family: "Comic Sans MS", cursive;
+      color: #51608e;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.92);
+      border-radius: 999px;
+      padding: 6px 14px;
+      white-space: nowrap;
+      box-shadow: 0 8px 18px rgba(81, 96, 142, 0.12);
+      opacity: 0;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      pointer-events: none;
+    }
+
+    .polaroid:hover p,
+    .polaroid:focus-visible p,
+    .polaroid.tapped p {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .p1 { top: 20px; left: 45px; --rotate: -7deg; }
+    .p2 { top: 0; left: 210px; --rotate: 4deg; }
+    .p3 { top: 35px; right: 10px; --rotate: 7deg; }
+    .p4 { top: 225px; left: 160px; --rotate: -5deg; }
+
+    section {
+      padding: 76px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .soft-section { background: rgba(255,255,255,0.22); }
+    .pink-section { background: rgba(255, 220, 236, 0.4); }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      color: #41528a;
+      font-size: clamp(2.3rem, 5vw, 3.6rem);
+      margin: 0 0 10px;
+    }
+
+    .section-sub {
+      margin: 0 auto;
+      max-width: 700px;
+      font-size: 1.08rem;
+      line-height: 1.7;
+      color: #66719e;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .mini-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.75);
+      border-radius: 24px;
+      padding: 14px;
+      box-shadow: 0 18px 35px rgba(53, 73, 129, 0.12);
+      backdrop-filter: blur(12px);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+      will-change: transform;
+    }
+
+    .mini-card:hover,
+    .mini-card:focus-visible,
+    .mini-card.tapped {
+      transform: translateY(-10px) scale(1.04);
+      box-shadow: 0 28px 50px rgba(53, 73, 129, 0.22);
+    }
+
+    .mini-card .icon {
+      height: 100px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff7fb, #e5edff);
+    }
+
+    .mini-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      color: #374777;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+    }
+
+    .mini-card p {
+      margin: 0;
+      color: #6c77a2;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+    }
+
+    .tiny-note {
+      text-align: center;
+      font-family: "Comic Sans MS", cursive;
+      color: #5b6a9a;
+      font-size: 1.35rem;
+      margin-top: 22px;
+    }
+
+    .world-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .world-card {
+      background: #fffdfd;
+      border-radius: 8px;
+      padding: 10px 10px 18px;
+      box-shadow: 0 18px 35px rgba(78, 82, 120, 0.14);
+      transform: rotate(var(--r));
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .world-card .frame {
+      height: 150px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      font-size: 2.6rem;
+      background: linear-gradient(135deg, #cfe4ff, #ffe2ee);
+      margin-bottom: 12px;
+    }
+
+    .world-card h4 {
+      margin: 0 0 6px;
+      color: #374777;
+      font-size: 1rem;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+    }
+
+    .world-card p {
+      margin: 0;
+      color: #6f7aa1;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+    }
+
+    .date-wrap {
+      display: grid;
+      grid-template-columns: 0.9fr 1.25fr 0.65fr;
+      gap: 22px;
+      align-items: stretch;
+      color: white;
+    }
+
+    .date-left {
+      padding: 24px 10px 24px 4px;
+    }
+
+    .date-left .section-title {
+      color: #dbe6ff;
+      font-size: clamp(2.6rem, 5vw, 4.3rem);
+      margin-bottom: 16px;
+    }
+
+    .date-left p {
+      color: rgba(255,255,255,0.84);
+      line-height: 1.7;
+      font-size: 1.08rem;
+      max-width: 280px;
+    }
+
+    .moon-card,
+    .summary-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 30px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.22);
+      backdrop-filter: blur(14px);
+    }
+
+    .moon-card { padding: 22px; }
+    .step { margin-bottom: 22px; }
+
+    .step-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #f1f6ff;
+      font-size: 1.08rem;
+    }
+
+    .badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff86b9, #ffb9d6);
+      display: inline-grid;
+      place-items: center;
+      color: white;
+      font-size: 0.92rem;
+      box-shadow: 0 8px 16px rgba(255, 126, 186, 0.32);
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .choice {
+      border: none;
+      border-radius: 22px;
+      padding: 14px 10px;
+      background: rgba(255,255,255,0.07);
+      color: white;
+      cursor: pointer;
+      min-height: 110px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+      transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .choice span {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .choice:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.13);
+    }
+
+    .choice.active {
+      background: linear-gradient(135deg, rgba(147, 191, 255, 0.35), rgba(255, 147, 196, 0.32));
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.22), 0 14px 22px rgba(0,0,0,0.16);
+    }
+
+    .summary-card {
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .summary-card h3 {
+      font-family: "Comic Sans MS", cursive;
+      font-size: 2rem;
+      margin: 0 0 16px;
+      color: #fff6fb;
+    }
+
+    .summary-stack {
+      line-height: 1.8;
+      font-size: 1.12rem;
+      color: #eff4ff;
+      min-height: 170px;
+      display: grid;
+      place-items: center;
+    }
+
+    .summary-message {
+      margin-top: 10px;
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ff7db7, #ff9cc9);
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 18px 28px rgba(255, 125, 183, 0.28);
+    }
+
+    .footer-note {
+      text-align: center;
+      color: rgba(255,255,255,0.9);
+      margin-top: 28px;
+      font-size: 1.08rem;
+      line-height: 1.7;
+    }
+
+    .heart { color: #ff91bf; }
+
+    .lift-card:hover,
+    .lift-card:focus-visible,
+    .lift-card.tapped {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 24px 42px rgba(53, 73, 129, 0.18);
+    }
+
+    .world-card.lift-card:hover,
+    .world-card.lift-card:focus-visible,
+    .world-card.lift-card.tapped {
+      transform: rotate(var(--r)) translateY(-10px) scale(1.04);
+      box-shadow: 0 28px 50px rgba(78, 82, 120, 0.24);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .page-shell {
+      opacity: 0;
+      transform: translateY(18px) scale(0.995);
+      transition: opacity 1.1s ease, transform 1.1s ease;
+    }
+
+    .page-shell.intro-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .music-player {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.16);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 16px 30px rgba(12, 24, 64, 0.22);
+    }
+
+    .music-toggle {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      min-height: 46px;
+      background: linear-gradient(135deg, #ff7ab5, #ff9fcc);
+      color: white;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      box-shadow: 0 14px 24px rgba(255, 125, 183, 0.3);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .music-toggle:hover,
+    .music-toggle:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 28px rgba(255, 125, 183, 0.36);
+    }
+
+    .music-toggle.playing {
+      background: linear-gradient(135deg, #ff6cab, #ff92c2);
+    }
+
+    .music-note {
+      color: rgba(255,255,255,0.88);
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1100px) {
+      .hero,
+      .date-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-text {
+        text-align: center;
+      }
+
+      .hero-text p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-visual {
+        height: 520px;
+      }
+
+      .cards,
+      .world-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      nav {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .nav-links {
+        justify-content: center;
+        gap: 14px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 20px;
+        gap: 24px;
+      }
+
+      .hero-text h1 {
+        font-size: 3.1rem;
+      }
+
+      .hero-visual {
+        height: 500px;
+        padding-bottom: 86px;
+      }
+
+      .polaroid {
+        width: 150px;
+        padding: 10px 10px 40px;
+      }
+
+      .polaroid .photo {
+        height: 160px;
+        font-size: 2.1rem;
+      }
+
+      .polaroid p {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        font-size: 0.92rem;
+        padding: 5px 11px;
+      }
+
+      .p1 { top: 10px; left: 8px; }
+      .p2 { top: 0; left: 120px; }
+      .p3 { top: 22px; right: 0; }
+      .p4 { top: 190px; left: 90px; }
+
+      .hero-note {
+        right: 50%;
+        transform: translateX(50%);
+        bottom: 0;
+        font-size: 1.25rem;
+        max-width: 210px;
+        padding: 10px 14px;
+      }
+
+      .cards,
+      .world-grid,
+      .choices {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .date-left {
+        text-align: center;
+        padding: 10px 0;
+      }
+
+      .date-left p {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .music-player {
+        right: 12px;
+        left: 12px;
+        bottom: 12px;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .music-toggle {
+        padding: 11px 15px;
+        font-size: 0.88rem;
+      }
+
+      .music-note {
+        font-size: 0.78rem;
+      }
+
+      body {
+        background: linear-gradient(180deg, var(--navy) 0%, #1b3473 20%, var(--lavender) 20%, #f9edf3 70%, var(--navy-2) 70%, #10183b 100%);
+      }
+
+      .container {
+        width: min(100% - 20px, 1180px);
+      }
+
+      nav {
+        padding-top: 18px;
+      }
+
+      .brand {
+        font-size: 1.2rem;
+      }
+
+      .nav-links a {
+        font-size: 0.8rem;
+      }
+
+      .hero {
+        gap: 18px;
+        padding: 18px 0 40px;
+      }
+
+      .hero-tag {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+      }
+
+      .hero-text h1 {
+        font-size: 2.55rem;
+        line-height: 1.02;
+      }
+
+      .hero-text p {
+        font-size: 0.98rem;
+        line-height: 1.55;
+        max-width: 320px;
+      }
+
+      .cta {
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .hero-visual {
+        height: 420px;
+        padding-bottom: 86px;
+        margin-top: 8px;
+      }
+
+      .polaroid {
+        width: 122px;
+        padding: 8px 8px 34px;
+        border-radius: 10px;
+      }
+
+      .polaroid .photo {
+        height: 126px;
+        font-size: 1.7rem;
+      }
+
+      .polaroid p {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        max-width: calc(100% - 8px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        bottom: 7px;
+      }
+
+      .p1 { top: 4px; left: 8px; }
+      .p2 { top: 0; left: 96px; }
+      .p3 { top: 14px; right: 6px; }
+      .p4 { top: 148px; left: 72px; }
+
+      .hero-note {
+        bottom: 4px;
+        font-size: 1rem;
+        line-height: 1.2;
+        max-width: 170px;
+        padding: 9px 11px;
+        border-radius: 18px;
+      }
+
+      section {
+        padding: 52px 0;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .section-sub,
+      .mini-card p,
+      .world-card p,
+      .footer-note,
+      .date-left p {
+        font-size: 0.94rem;
+        line-height: 1.55;
+      }
+
+      .cards,
+      .world-grid,
+      .choices,
+      .date-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .mini-card,
+      .world-card,
+      .moon-card,
+      .summary-card {
+        border-radius: 22px;
+      }
+
+      .mini-card .icon,
+      .world-card .frame {
+        height: 88px;
+      }
+
+      .world-card {
+        transform: none;
+      }
+
+      .choices {
+        gap: 10px;
+      }
+
+      .choice {
+        min-height: 84px;
+        font-size: 0.92rem;
+        border-radius: 18px;
+      }
+
+      .choice span {
+        font-size: 1.6rem;
+        margin-bottom: 5px;
+      }
+
+      .step {
+        margin-bottom: 18px;
+      }
+
+      .summary-card h3 {
+        font-size: 1.6rem;
+      }
+
+      .summary-stack {
+        min-height: auto;
+        font-size: 1rem;
+      }
+
+      .summary-message {
+        font-size: 0.95rem;
+        padding: 14px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .hero-text h1 {
+        font-size: 2.25rem;
+      }
+
+      .hero-visual {
+        height: 390px;
+      }
+
+      .polaroid {
+        width: 112px;
+      }
+
+      .polaroid .photo {
+        height: 116px;
+      }
+
+      .p1 { left: 2px; }
+      .p2 { left: 82px; }
+      .p3 { right: 2px; }
+      .p4 { left: 60px; top: 136px; }
+
+      .hero-note {
+        max-width: 155px;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgMusic" loop playsinline preload="auto">
+    <source src="song.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="music-player reveal">
+    <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false">▶ play this before you start ♡</button>
+    <span class="music-note" id="musicStatus">soft intro on tap</span>
+  </div>
+
+  <div class="page-shell intro-visible" id="pageShell">
+    <div class="cloud one"></div>
+    <div class="cloud two"></div>
+
+    <div class="container">
+      <nav class="reveal">
+        <div class="brand">♡ for you</div>
+        <div class="nav-links">
+          <a href="#about">About You</a>
+          <a href="#world">Our Little World</a>
+          <a href="#simulator">Date Simulator</a>
+          <a href="#ending">For You</a>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div class="hero-text reveal">
+          <div class="hero-tag">A little place i made for you ✨</div>
+          <h1>This is<br />All About <span class="accent">You</span></h1>
+          <p>
+            A small world made from the things you love. The colors, the little comforts,
+            the movies, the food, the music, the sunny day kind of softness. I wanted to make
+            something that feels personal, warm, and made with effort.
+          </p>
+          <a class="cta" href="#about">start exploring ♡</a>
+        </div>
+
+        <div class="hero-visual reveal">
+          <button class="polaroid p1" type="button" aria-label="sunny skies card">
+            <div class="photo sky">☀️</div>
+            <p>sunny skies</p>
+          </button>
+          <button class="polaroid p2 tapped" type="button" aria-label="pink lilies card">
+            <div class="photo lilies">🌸</div>
+            <p>pink lilies</p>
+          </button>
+          <button class="polaroid p3" type="button" aria-label="tea and milo card">
+            <div class="photo tea">☕</div>
+            <p>tea &amp; milo</p>
+          </button>
+          <button class="polaroid p4" type="button" aria-label="soft days card">
+            <div class="photo clouds">☁️</div>
+            <p>soft days</p>
+          </button>
+          <div class="hero-note">You’re the most amazing.</div>
+        </div>
+      </section>
+    </div>
+
+    <section id="about" class="soft-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 class="section-title">Things I Love About You <span class="heart">♡</span></h2>
+          <p class="section-sub">
+            Not just the big things. The little things. The very you things.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="mini-card lift-card reveal" tabindex="0">
+            <div class="icon">🎨</div>
+            <h3>your favorite colours</h3>
+            <p>blue, pink, purple and green — soft, bright, pretty, like your whole vibe.</p>
+          </article>
+          <article class="mini-card lift-card reveal" tabindex="0">
+            <div class="icon">💛</div>
+            <h3>gold over silver</h3>
+            <p>so of course the details here had to feel warm and golden too.</p>
+          </article>
+          <article class="mini-card lift-card reveal" tabindex="0">
+            <div class="icon">🍜</div>
+            <h3>your top foods</h3>
+            <p>laksa, salted egg crabs, korean sticky wings — elite choices honestly.</p>
+          </article>
+          <article class="mini-card lift-card reveal" tabindex="0">
+            <div class="icon">🎬</div>
+            <h3>movie nights</h3>
+            <p>Coraline, Lady Bird, Little Women, How to Lose a Guy in 10 Days.</p>
+          </article>
+          <article class="mini-card lift-card reveal" tabindex="0">
+            <div class="icon">🎧</div>
+            <h3>soundtrack energy</h3>
+            <p>Taylor Swift playing somewhere in the background just feels correct.</p>
+          </article>
+          <article class="mini-card lift-card reveal" tabindex="0">
+            <div class="icon">📚</div>
+            <h3>books &amp; stories</h3>
+            <p>reading, getting lost in a story, and having a little world of your own.</p>
+          </article>
+        </div>
+
+        <div class="tiny-note reveal">and a million other little things that make you… you.</div>
+      </div>
+    </section>
+
+    <section id="world" class="pink-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 class="section-title">Our Little World <span class="heart">♡</span></h2>
+          <p class="section-sub">
+            The soft details. The quality-time kind of moments. The kind of stuff I could imagine with you.
+          </p>
+        </div>
+
+        <div class="world-grid">
+          <article class="world-card lift-card reveal" tabindex="0" style="--r:-4deg;">
+            <div class="frame">☕</div>
+            <h4>tea, milo &amp; talks</h4>
+            <p>the kind of simple moment that somehow becomes the best part of the day.</p>
+          </article>
+          <article class="world-card lift-card reveal" tabindex="0" style="--r:2deg;">
+            <div class="frame">🌸</div>
+            <h4>pink lilies</h4>
+            <p>pretty, soft, and exactly the sort of detail worth remembering.</p>
+          </article>
+          <article class="world-card lift-card reveal" tabindex="0" style="--r:-3deg;">
+            <div class="frame">🎮</div>
+            <h4>game nights</h4>
+            <p>Roblox, Free Fire, joking around, winning some and throwing some on purpose.</p>
+          </article>
+          <article class="world-card lift-card reveal" tabindex="0" style="--r:3deg;">
+            <div class="frame">🧁</div>
+            <h4>baking together</h4>
+            <p>something sweet, slightly messy, and worth doing just because you like it.</p>
+          </article>
+          <article class="world-card lift-card reveal" tabindex="0" style="--r:-2deg;">
+            <div class="frame">🏀</div>
+            <h4>sports days</h4>
+            <p>handball, basketball, dodgeball, bowling — active, fun, and full of energy.</p>
+          </article>
+          <article class="world-card lift-card reveal" tabindex="0" style="--r:2deg;">
+            <div class="frame">🏃‍♀️</div>
+            <h4>track days</h4>
+            <p>because I know that’s your sport, and it deserves its own little spotlight.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="simulator">
+      <div class="container">
+        <div class="date-wrap">
+          <div class="date-left reveal">
+            <h2 class="section-title">Date<br />Simulator</h2>
+            <p>
+              Let’s build a perfect day using the stuff you love. Pick the food, the movie, and the vibe.
+              Then the page turns it into one soft little scene.
+            </p>
+          </div>
+
+          <div class="moon-card reveal">
+            <div class="step">
+              <div class="step-title"><span class="badge">1</span> pick our food</div>
+              <div class="choices" data-group="food">
+                <button class="choice active" type="button" data-value="laksa"><span>🍜</span>laksa</button>
+                <button class="choice" type="button" data-value="salted egg crabs"><span>🦀</span>salted egg crabs</button>
+                <button class="choice" type="button" data-value="korean sticky wings"><span>🍗</span>korean sticky wings</button>
+                <button class="choice" type="button" data-value="vanilla ice cream after"><span>🍨</span>vanilla ice cream after</button>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-title"><span class="badge">2</span> pick our movie</div>
+              <div class="choices" data-group="movie">
+                <button class="choice active" type="button" data-value="Coraline"><span>🧿</span>Coraline</button>
+                <button class="choice" type="button" data-value="Little Women"><span>🎞️</span>Little Women</button>
+                <button class="choice" type="button" data-value="Lady Bird"><span>💌</span>Lady Bird</button>
+                <button class="choice" type="button" data-value="How to Lose a Guy in 10 Days"><span>💗</span>How to Lose a Guy in 10 Days</button>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-title"><span class="badge">3</span> pick our vibe</div>
+              <div class="choices" data-group="vibe">
+                <button class="choice active" type="button" data-value="talk for hours"><span>💬</span>talk for hours</button>
+                <button class="choice" type="button" data-value="play games together"><span>🎮</span>play games</button>
+                <button class="choice" type="button" data-value="bake something sweet"><span>🧁</span>bake something</button>
+                <button class="choice" type="button" data-value="just be together"><span>💖</span>just be together</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="summary-card reveal">
+            <h3>our perfect day together</h3>
+            <div class="summary-stack" id="summaryText">
+              laksa<br />+<br />Coraline<br />+<br />talk for hours<br /><br />honestly? sounds perfect.
+            </div>
+            <div class="summary-message">now all that’s missing is you.</div>
+          </aside>
+        </div>
+
+        <div id="ending" class="footer-note reveal">
+          I know effort matters more than words. That’s why I made this. <span class="heart">♡</span><br />
+          Whatever pace feels right to you, this was made with you in mind.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const selected = {
+      food: 'laksa',
+      movie: 'Coraline',
+      vibe: 'talk for hours'
+    };
+
+    const summaryText = document.getElementById('summaryText');
+    const music = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    const musicStatus = document.getElementById('musicStatus');
+
+    let isPlaying = false;
+    let fadeInterval = null;
+
+    function updateSummary() {
+      if (!summaryText) return;
+      summaryText.innerHTML = `${selected.food}<br />+<br />${selected.movie}<br />+<br />${selected.vibe}<br /><br />honestly? sounds perfect.`;
+    }
+
+    function fadeInAudio(audio, duration = 1800) {
+      if (!audio) return;
+
+      if (fadeInterval) {
+        clearInterval(fadeInterval);
+        fadeInterval = null;
+      }
+
+      audio.volume = 0;
+
+      const playPromise = audio.play();
+
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise.then(() => {
+          const stepTime = 90;
+          const steps = Math.max(1, Math.floor(duration / stepTime));
+          const volumeStep = 1 / steps;
+
+          fadeInterval = setInterval(() => {
+            if (audio.volume < 0.96) {
+              audio.volume = Math.min(audio.volume + volumeStep, 1);
+            } else {
+              audio.volume = 1;
+              clearInterval(fadeInterval);
+              fadeInterval = null;
+            }
+          }, stepTime);
+        }).catch((err) => {
+          console.error('Audio play failed:', err);
+          if (musicStatus) musicStatus.textContent = 'tap again if music did not start';
+          isPlaying = false;
+          musicToggle.classList.remove('playing');
+          musicToggle.textContent = '▶ play this before you start ♡';
+          musicToggle.setAttribute('aria-pressed', 'false');
+        });
+      }
+    }
+
+    function toggleMusic() {
+      if (!music || !musicToggle) return;
+
+      if (!isPlaying) {
+        fadeInAudio(music);
+        musicToggle.classList.add('playing');
+        musicToggle.textContent = '❚❚ pause the song';
+        musicToggle.setAttribute('aria-pressed', 'true');
+        if (musicStatus) musicStatus.textContent = 'now playing…';
+        isPlaying = true;
+      } else {
+        if (fadeInterval) {
+          clearInterval(fadeInterval);
+          fadeInterval = null;
+        }
+
+        music.pause();
+        musicToggle.classList.remove('playing');
+        musicToggle.textContent = '▶ play this before you start ♡';
+        musicToggle.setAttribute('aria-pressed', 'false');
+        if (musicStatus) musicStatus.textContent = 'soft intro on tap';
+        isPlaying = false;
+      }
+    }
+
+    if (musicToggle) {
+      musicToggle.addEventListener('click', toggleMusic);
+    }
+
+    document.querySelectorAll('.choices').forEach(group => {
+      group.addEventListener('click', (e) => {
+        const btn = e.target.closest('.choice');
+        if (!btn) return;
+
+        group.querySelectorAll('.choice').forEach(choice => choice.classList.remove('active'));
+        btn.classList.add('active');
+
+        const key = group.dataset.group;
+        selected[key] = btn.dataset.value;
+        updateSummary();
+      });
+    });
+
+    function setupTapCards(selector) {
+      document.querySelectorAll(selector).forEach(card => {
+        card.addEventListener('click', () => {
+          const alreadyTapped = card.classList.contains('tapped');
+          document.querySelectorAll(selector).forEach(item => item.classList.remove('tapped'));
+
+          if (!alreadyTapped) {
+            card.classList.add('tapped');
+          }
+        });
+
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+    }
+
+    setupTapCards('.polaroid');
+    setupTapCards('.lift-card');
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.polaroid')) {
+        document.querySelectorAll('.polaroid').forEach(item => item.classList.remove('tapped'));
+        const liliesCard = document.querySelector('.p2');
+        if (liliesCard) liliesCard.classList.add('tapped');
+      }
+
+      if (!e.target.closest('.lift-card')) {
+        document.querySelectorAll('.lift-card').forEach(item => item.classList.remove('tapped'));
+      }
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      reveals.forEach((item) => observer.observe(item));
+    } else {
+      reveals.forEach((item) => item.classList.add('is-visible'));
+    }
+
+    updateSummary();
+  </script>
+</body>
+</html>
